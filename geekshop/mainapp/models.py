@@ -15,7 +15,7 @@ class ProductCategory(models.Model):
 
 class Product(models.Model):
     name = models.CharField(verbose_name='имя', max_length=100)
-    prise = models.DecimalField(
+    price = models.DecimalField(
         verbose_name='цена', max_digits=7, decimal_places=2, default=0)
     color = models.PositiveIntegerField(
         verbose_name='цвет', default=0x000000)
