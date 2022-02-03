@@ -1,11 +1,13 @@
 from .models import Basket
 from django.http.response import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from mainapp.models import Product
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 
 
+@login_required
 def view(request):
     return render(request, 'basketapp/basket.html', context={
         'title': 'Корзина',

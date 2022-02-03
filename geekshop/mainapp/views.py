@@ -43,9 +43,9 @@ def products(request):
     )
 
 
-def category(request, pk):
+def category(request, category_id):
     categories = ProductCategory.objects.all()
-    category = get_object_or_404(ProductCategory, pk=pk)
+    category = get_object_or_404(ProductCategory, id=category_id)
     products = Product.objects.filter(category=category)
     hot_product = get_hot_product(products)
 
@@ -56,6 +56,22 @@ def category(request, pk):
             'title': 'Продукты',
             'products': products.exclude(pk=hot_product.pk)[:4],
             'hot_product': hot_product,
+            'menu_links': MENU_LINKS,
+            'categories': categories,
+        }
+    )
+
+
+def product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    categories = ProductCategory.objects.all()
+
+    return render(
+        request,
+        'mainapp/product.html',
+        context={
+            'title': 'Продукты',
+            'product': product,
             'menu_links': MENU_LINKS,
             'categories': categories,
         }
