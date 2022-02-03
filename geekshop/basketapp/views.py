@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404
 
 def view(request):
     return render(request, 'basketapp/basket.html', context={
-        'basket': Basket.objects.filter(user=request.user)
+        'title': 'Корзина',
     })
 
 
