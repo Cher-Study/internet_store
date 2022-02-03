@@ -20,7 +20,7 @@ class BasketManager(models.Manager):
 
 class Basket(models.Model):
     class Meta:
-        ordering = ('-quantity',)
+        ordering = ('id',)
         unique_together = ['user', 'product']
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
