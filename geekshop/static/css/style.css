@@ -1076,3 +1076,7 @@ td:first-child {
 .related-products a:hover .text{
 	display: block;
 }
+
+.not_active {
+	color:#f44336;
+}
