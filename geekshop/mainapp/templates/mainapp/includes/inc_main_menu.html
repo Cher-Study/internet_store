@@ -18,14 +18,20 @@
 				{{ user.first_name|default:'Пользователь' }}          
 			</a>
 		</li>
-		{% endif %} 
-		{% if user.is_authenticated %}
+		<li>
+			<a href="{% url 'basket:view' %}">
+				<i class='fa fa-shopping-basket'> </i>
+				{{ user.basket.total_cost }} руб. ({{ user.basket.total_quantity }})
+			</a>
+		</li>
+			{% if user.is_superuser %}
 			<li>
-				<a href="{% url 'basket:view' %}">
-					<i class='fa fa-shopping-basket'> </i>
-					{{ user.basket.total_cost }} руб. ({{ user.basket.total_quantity }})
+				<a href=" {% url 'admin:users' %} ">
+					<i class='fa fa-paw'> </i>
+					Админка         
 				</a>
 			</li>
+			{% endif %}
 		{% endif %} 
 		<li>
 			{% if user.is_authenticated %}
