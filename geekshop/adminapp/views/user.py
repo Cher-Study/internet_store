@@ -1,6 +1,8 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from authapp.models import ShopUser
 from adminapp.forms import ShopUserAdminForm
 from adminapp.utils import superuser_required
@@ -22,14 +24,13 @@ def user_create(request):
     })
 
 
-@superuser_required
-def users(request):
-    users = ShopUser.objects.all().order_by('id')
+class UsersListView(ListView):
+    model = ShopUser
+    template_name = 'adminapp/user/users.html'
 
-    return render(request, 'adminapp/user/users.html', context={
-        'title': 'Пользователи',
-        'objects': users,
-    })
+    @method_decorator(superuser_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 @superuser_required
