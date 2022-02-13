@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from mainapp.models import Product, ProductCategory
@@ -10,7 +10,7 @@ from adminapp.forms import ProductEditAdminForm, ProductCreateAdminForm
 class ProductCreateView(CreateView):
     model = Product
     template_name = 'adminapp/product/edit.html'
-    success_url = reverse_lazy('admin:categories')
+    # success_url = reverse_lazy('admin:categories')
     fields = (
         'category',
         'name',
@@ -29,6 +29,9 @@ class ProductCreateView(CreateView):
         return {
             'category': self.get_category()
         }
+
+    def get_success_url(self) -> str:
+        return reverse('admin:products', kwargs=self.kwargs)
 
     def get_category(self):
         return ProductCategory.objects.get(pk=self.kwargs['pk'])
