@@ -40,3 +40,14 @@ class ProductCreateAdminForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class ProductEditAdminForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
+
+
+
