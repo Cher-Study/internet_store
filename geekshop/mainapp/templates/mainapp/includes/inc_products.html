@@ -1,4 +1,5 @@
 {% load static %}
+{% load my_tags %}
 {% if paginator %}
     {% if page.has_previous %}
         <a href="{% url 'products:paged_category' category.id page.previous_page_number %}"> Назад </a>
