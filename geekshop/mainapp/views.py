@@ -4,20 +4,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Product, ProductCategory
 
 
-MENU_LINKS = [
-    {'url': 'main', 'active': ['main'], 'name': 'домой'},
-    {'url': 'products:all', 'active': (
-        'products:all', 'products:category'), 'name': 'продукты'},
-    {'url': 'contact', 'active': ['contact'], 'name': 'контакт'},
-]
-
-
 def main(request):
     products = Product.objects.all()[:4]
 
     return render(request, 'mainapp/index.html', context={
         'title': 'Главная',
-        'menu_links': MENU_LINKS,
         'products': products,
     })
 
@@ -38,7 +29,6 @@ def products(request):
             'title': 'Продукты',
             'products': products.exclude(pk=hot_product.pk)[:4],
             'hot_product': hot_product,
-            'menu_links': MENU_LINKS,
             'categories': categories,
         }
     )
@@ -56,7 +46,7 @@ def category(request, category_id, page=1):
     except EmptyPage:
         products_page = paginator.page(paginator.num_pages)
     except PageNotAnInteger:
-            products_page = paginator.page(1)
+        products_page = paginator.page(1)
 
     return render(
         request,
@@ -67,7 +57,6 @@ def category(request, category_id, page=1):
             'hot_product': hot_product,
             'paginator': paginator,
             'page': products_page,
-            'menu_links': MENU_LINKS,
             'category': category,
             'categories': categories,
         }
@@ -84,7 +73,6 @@ def product(request, product_id):
         context={
             'title': 'Продукты',
             'product': product,
-            'menu_links': MENU_LINKS,
             'categories': categories,
         }
     )
@@ -93,5 +81,4 @@ def product(request, product_id):
 def contact(request):
     return render(request, 'mainapp/contact.html', context={
         'title': 'Контакты',
-        'menu_links': MENU_LINKS,
     })
