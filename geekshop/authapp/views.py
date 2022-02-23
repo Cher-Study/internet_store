@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import auth
+from django.db import transaction
 from .models import ShopUser
-from .forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm
+from .forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserProfileEditForm
 from .utils import send_verify_mail
 
 # Create your views here.
@@ -53,18 +54,25 @@ def register(request):
     })
 
 
+@transaction.atomic
 def edit(request):
     if request.method == 'POST':
         edit_form = ShopUserEditForm(
             request.POST, request.FILES, instance=request.user)
-        if edit_form.is_valid():
+        profile_form = ShopUserProfileEditForm(
+            request.POST, instance=request.user.profile)
+        if edit_form.is_valid() and profile_form.is_valid():
             edit_form.save()
+            profile_form.save()
             return HttpResponseRedirect(reverse('main'))
     else:
         edit_form = ShopUserEditForm(instance=request.user)
+        profile_form = ShopUserProfileEditForm(instance=request.user.profile)
+
     return render(request, 'authapp/edit.html', context={
         'title': 'Редактирование',
-        'form': edit_form
+        'form': edit_form,
+        'profile_form': profile_form
     })
 
 
