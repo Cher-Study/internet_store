@@ -4,6 +4,17 @@
     <form method='POST' url="{% url 'auth:login' %}">
         {% csrf_token %}
         {{form.as_p}}
-        <input type='submit' value='Войти'>
+        <input  type='submit' value='Войти'>
+        <button class="btn btn-round form-control">
+            <a href="{% url 'auth:register' %}" class="">
+                Зарегистрироваться
+            </a>
+        </button>
+        <button class="btn btn-round form-control">
+            <a href="{% url 'social:begin' 'github' %}?next=/">
+             Вход через GitHub 
+            </a>
+        </button>
+        
     </form>
 {% endblock  %}

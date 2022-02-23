@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from msilib.schema import Media
 from pathlib import Path
 import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django',
+
     'mainapp',
     'authapp',
     'basketapp',
@@ -145,6 +149,19 @@ MEDIA_ROOT = BASE_DIR/'media'
 AUTH_USER_MODEL = 'authapp.ShopUser'
 
 LOGIN_URL = 'auth:login'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.github.GithubOAuth2',
+)
+
+with open('./credentials.json', 'r') as credentials_file:
+    credentials = json.load(credentials_file)
+
+SOCIAL_AUTH_GITHUB_KEY = credentials['GITHUB_KEY']
+SOCIAL_AUTH_GITHUB_SECRET = credentials['GITHUB_SECRET']
+
+# Email
 
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = '2025'
