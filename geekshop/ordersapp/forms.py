@@ -5,8 +5,8 @@ from ordersapp.models import Order, OrderItem
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        exclude = ('user',)
-        # fields = []
+        # exclude = ('user',)
+        fields = []
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
@@ -18,6 +18,8 @@ class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
         fields = '__all__'
+
+    price = forms.CharField(label='цена', required=False, disabled=True)
 
     def __init__(self, *args, **kwargs):
         super(OrderItemForm, self).__init__(*args, **kwargs)

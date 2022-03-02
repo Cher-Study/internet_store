@@ -37,7 +37,7 @@ class Order(models.Model):
     created = models.DateTimeField(verbose_name='обновлен', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='обновлен', auto_now=True)
     status = models.CharField(
-        verbose_name='статус', choices=ORDER_STATUS_CHOISES, max_length=16)
+        verbose_name='статус', choices=ORDER_STATUS_CHOISES, max_length=16, default=CREATED)
     is_active = models.BooleanField(verbose_name='активен', default=True)
 
     @property
