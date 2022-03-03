@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from mainapp.models import Product
 from basketapp.models import Basket
+from django.db.models.signals import pre_save, pre_delete
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -35,7 +37,7 @@ class Order(models.Model):
     created = models.DateTimeField(verbose_name='обновлен', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='обновлен', auto_now=True)
     status = models.CharField(
-        verbose_name='статус', choices=ORDER_STATUS_CHOISES, max_length=16)
+        verbose_name='статус', choices=ORDER_STATUS_CHOISES, max_length=16, default=CREATED)
     is_active = models.BooleanField(verbose_name='активен', default=True)
 
     @property
@@ -72,3 +74,20 @@ class OrderItem(models.Model):
     @property
     def cost(self):
         return self.product.price * self.quantity
+
+
+@receiver(pre_save, sender=OrderItem)
+def product_quantity_update_on_order_item_save(sender, update_fields, instance, **kwargs):
+
+    if instance.pk:
+        old_item = OrderItem.objects.get(pk=instance.pk)
+        instance.product.quantity -= instance.quantity - old_item.quantity
+    else:
+        instance.product.quantity -= instance.quantity
+    instance.product.save()
+
+
+@receiver(pre_delete, sender=OrderItem)
+def product_quantity_update_on_order_item_delete(sender, instance, **kwargs):
+    instance.product.quantity += instance.quantity
+    instance.product.save()
