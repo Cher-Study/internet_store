@@ -1,5 +1,5 @@
-from email.policy import default
-from msilib.schema import Media
+# from email.policy import default
+# from msilib.schema import Media
 from django.db import models
 
 # Create your models here.
@@ -11,6 +11,11 @@ class ProductCategory(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class ProductManager(models.Manager):
+    def active_items(self):
+        return Product.objects.filter(is_active=True)
 
 
 class Product(models.Model):
@@ -25,6 +30,9 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(
         verbose_name='количество', default=0)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    is_active = models.BooleanField(verbose_name='активный', default=True)
+
+    objects = ProductManager()
 
     def __str__(self) -> str:
         return self.name

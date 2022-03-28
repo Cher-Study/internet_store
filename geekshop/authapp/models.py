@@ -17,7 +17,7 @@ class ShopUser(AbstractUser):
     avatar = models.ImageField(
         verbose_name='аватар', blank=True, upload_to='users')
     phone = models.CharField(verbose_name='телефон', max_length=20, blank=True)
-    city = models.CharField(verbose_name='город', max_length=20, blank=True)
+    city = models.CharField(verbose_name='город', max_length=64, blank=True)
     activation_key = models.CharField(max_length=128, blank=True)
     activation_key_expires = models.DateTimeField(
         default=get_activation_key_expiration_date)
