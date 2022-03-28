@@ -137,3 +137,5 @@ media
 geekshop/tmp/emails
 djando_venv
 geekshop/credentials.json
+data_postgres.json
+
