@@ -20,6 +20,7 @@ from django.conf import settings
 from mainapp import views as mainapp
 
 urlpatterns = [
+    path('__debug__/', include('debug_toolbar.urls')),
     path('', include('social_django.urls', namespace='social')),
     path('admin/', include('adminapp.urls', namespace='admin')),
     path('', mainapp.main, name='main'),
