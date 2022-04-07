@@ -30,7 +30,7 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(
         verbose_name='количество', default=0)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    is_active = models.BooleanField(verbose_name='активный', default=True)
+    is_active = models.BooleanField(verbose_name='активный', default=True, db_index=True)
 
     objects = ProductManager()
 
