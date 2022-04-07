@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'template_profiler_panel',
     'social_django',
     'django_extensions',
+    'pydotplus',
 
     'mainapp',
     'authapp',
